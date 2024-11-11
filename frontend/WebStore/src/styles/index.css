@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom global styles */
+body {
+  @apply bg-gray-50 text-gray-800 font-sans;
+}
+
+a {
+  @apply text-blue-500 hover:underline;
+}
+
+button {
+  @apply bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600;
+}
+
+/* Custom classes for headers */
+h1 {
+  @apply text-4xl font-bold mb-4;
+}
+
+h2 {
+  @apply text-3xl font-semibold mb-3;
+}
+
+h3 {
+  @apply text-2xl font-medium mb-2;
+}
+
+p {
+  @apply text-base leading-relaxed mb-4;
+}
+
+/* Custom container for consistent width */
+.container {
+  @apply max-w-7xl mx-auto px-4;
+}
