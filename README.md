@@ -38,7 +38,7 @@ WebStore is a full-stack e-commerce application that allows users to manage prod
 ### Prerequisites
 - **Node.js**: Required for running the frontend.
 - **Visual Studio**: For running the backend.
-- **SQL Server**: Database for the project.
+- **PostgreSQL**: Database for the project.
 
 ### Setup
 1. **Clone the Repository**
