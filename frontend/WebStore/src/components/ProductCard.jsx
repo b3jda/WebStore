@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import useAuth from "../hooks/useAuth"; // Import useAuth for user details
+import useAuth from "../hooks/useAuth";
+import { useCart } from "../context/CartContext.jsx";
 
 // Import local images from the assets folder
 import tshirtImage from "../assets/tshirt.jpg";
@@ -9,10 +10,10 @@ import jacketImage from "../assets/jacket.jpg";
 import sneakerssImage from "../assets/sneakers.jpg";
 
 function ProductCard({ product, onUpdateProduct }) {
-  const { getUserId } = useAuth(); // Get the user ID dynamically
-  const [currentQuantity, setCurrentQuantity] = useState(product.quantity); // State for current quantity
-  const [loading, setLoading] = useState(false); // Loading state for order action
-  const [error, setError] = useState(null); // Error state
+  const { addToCart } = useCart();
+  const [currentQuantity, setCurrentQuantity] = useState(product.quantity);
+  const [isAdded, setIsAdded] = useState(false);
+  const [error, setError] = useState(null);
 
   // Dynamically determine the image based on product name
   const getImage = (name) => {
@@ -20,7 +21,7 @@ function ProductCard({ product, onUpdateProduct }) {
     if (name.toLowerCase().includes("trousers")) return trousersImage;
     if (name.toLowerCase().includes("uggs")) return sneakersImage;
     if (name.toLowerCase().includes("sneakers")) return sneakerssImage;
-    return jacketImage; // Default to TShirt image if no match
+    return jacketImage;
   };
 
   // Fetch updated quantity when the component loads
@@ -34,7 +35,7 @@ function ProductCard({ product, onUpdateProduct }) {
           throw new Error(`Failed to fetch product quantity for ID: ${product.id}`);
         }
         const data = await response.json();
-        setCurrentQuantity(data.currentQuantity); // Update current quantity
+        setCurrentQuantity(data.currentQuantity);
       } catch (err) {
         setError(err.message);
       }
@@ -43,110 +44,76 @@ function ProductCard({ product, onUpdateProduct }) {
     fetchProductQuantity();
   }, [product.id]);
 
-  const handleOrder = async () => {
-    const userId = getUserId(); // Dynamically fetch user ID
-    const token = localStorage.getItem("token"); // Retrieve the token from localStorage
-  
-    if (!userId) {
-      alert("User is not authenticated!");
-      return;
-    }
-  
-    setLoading(true); // Set loading to true during the process
-    setError(null); // Reset error state
-  
-    const orderData = {
-      orderDate: new Date().toISOString(),
-      userId, // Use the dynamically fetched user ID
-      orderItems: [
-        {
-          productId: product.id,
-          quantity: 1, // Fixed quantity for this example
-          unitPrice: product.price,
-        },
-      ],
-    };
-  
-    try {
-      // Step 1: Place the order
-      const response = await fetch("http://localhost:5205/api/Order", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Add Bearer token for authentication
-        },
-        body: JSON.stringify(orderData),
-      });
-  
-      if (!response.ok) {
-        throw new Error("Failed to place order.");
-      }
-  
-      // Step 2: Fetch the updated quantity from the backend
-      const quantityResponse = await fetch(
-        `http://localhost:5205/api/Product/${product.id}/quantity`
-      );
-  
-      if (!quantityResponse.ok) {
-        throw new Error("Failed to fetch updated product quantity.");
-      }
-  
-      const updatedQuantityData = await quantityResponse.json();
-  
-      // Step 3: Update the current quantity in the UI
-      setCurrentQuantity(updatedQuantityData.currentQuantity);
-  
-      // Notify the parent component (if needed)
-      if (onUpdateProduct) {
-        onUpdateProduct(product.id, {
-          ...product,
-          quantity: updatedQuantityData.currentQuantity, // Use updated quantity
-        });
-      }
-  
-      alert("Order placed successfully!");
-    } catch (err) {
-      setError(err.message);
-      alert(`Order failed: ${err.message}`);
-    } finally {
-      setLoading(false); // Reset loading state
-    }
+  const handleAddToCart = () => {
+    addToCart(product);
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 1500);
   };
-  
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-      {/* Product Image */}
-      <img
-        src={getImage(product.name)} // Dynamically select the image
-        alt={product.name}
-        className="w-full h-48 object-cover"
-      />
+    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow relative">
+      {/* Discount Ribbon */}
+      {product.isDiscounted && (
+        <div className="absolute top-0 right-0 bg-red-600 text-white text-sm font-semibold px-4 py-2 transform rotate-45 translate-x-8 -translate-y-2 shadow-lg">
+          -{product.discountPercentage}%
+        </div>
+      )}
 
+      {/* Product Image */}
+      <div className="relative">
+        <img
+          src={getImage(product.name)}
+          alt={product.name}
+          className="w-full h-48 object-cover"
+        />
+        {product.isDiscounted && (
+          <div className="absolute top-0 left-0 bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-br-lg">
+          DISCOUNTED  -{product.discountPercentage}%
+        </div>
+        )}
+      </div>
       {/* Product Details */}
       <div className="p-4">
         <h3 className="text-lg font-bold text-gray-800">{product.name}</h3>
-        <p className="text-gray-600 mt-1">Price: ${product.price.toFixed(2)}</p>
-
+        
         {/* Additional Details */}
-        <p className="text-sm text-gray-500 mt-1">Brand: {product.brandName}</p>
-        <p className="text-sm text-gray-500 mt-1">Category: {product.categoryName}</p>
-        <p className="text-sm text-gray-500 mt-1">Size: {product.sizeName}</p>
-        <p className="text-sm text-gray-500 mt-1">Gender: {product.genderName}</p>
-        <p className="text-sm text-gray-500 mt-1">
-          Quantity: {currentQuantity}{" "}
-          {error && <span className="text-red-500">({error})</span>}
-        </p>
+        <div className="space-y-1 mt-2">
+          <p className="text-sm text-gray-500">Brand: {product.brandName}</p>
+          <p className="text-sm text-gray-500">Category: {product.categoryName}</p>
+          <p className="text-sm text-gray-500">Size: {product.sizeName}</p>
+          <p className="text-sm text-gray-500">Gender: {product.genderName}</p>
+          <p className="text-sm text-gray-500">
+            Quantity: {currentQuantity}
+            {error && <span className="text-red-500"> ({error})</span>}
+          </p>
+          <p className="text-sm font-bold text-gray-800">Price: {product.price}</p>
+        </div>
 
-        {/* Order Button */}
+        {/* Add to Cart Button */}
         <button
-          className="mt-4 w-full bg-teal-500 text-white py-2 rounded-md hover:bg-teal-600 disabled:opacity-50"
-          onClick={handleOrder}
-          disabled={currentQuantity <= 0 || loading} // Disable button if quantity is 0 or loading
+          className={`mt-4 w-full py-2 rounded-md transition-colors duration-200 ${
+            isAdded ? "bg-gold-600" : "bg-gold-500 hover:bg-gold-600"
+          } text-navy-900 font-medium`}
+          onClick={handleAddToCart}
         >
-          {loading ? "Placing Order..." : currentQuantity > 0 ? "Order" : "Out of Stock"}
+          {isAdded ? (
+            <span className="flex items-center justify-center">
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                className="h-5 w-5 mr-2" 
+                viewBox="0 0 20 20" 
+                fill="currentColor"
+              >
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+              Added to Cart
+            </span>
+          ) : (
+            "Add to Cart"
+          )}
         </button>
       </div>
+      
     </div>
   );
 }

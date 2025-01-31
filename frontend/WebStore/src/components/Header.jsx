@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { useCart } from "../context/CartContext.jsx";
+import { FaShoppingCart, FaUserCircle, FaSearch } from "react-icons/fa"; // Icons
 
 function Header() {
-  const { user, logout } = useAuth(); // Use authentication context
-  const [searchQuery, setSearchQuery] = useState("");
+  const { user, logout } = useAuth();
+  const { cart } = useCart();
   const [brand, setBrand] = useState("");
   const [size, setSize] = useState("");
-  const [isHovered, setIsHovered] = useState(false); // For hover effect
   const navigate = useNavigate();
 
   const handleSearch = () => {
     const params = new URLSearchParams();
-    if (searchQuery) params.append("query", searchQuery);
-    if (brand) params.append("brand", brand);
-    if (size) params.append("size", size);
-
+    if (brand.trim()) params.set("brand", brand.trim());
+    if (size.trim()) params.set("size", size.trim());
     navigate(`/search?${params.toString()}`);
   };
 
@@ -25,96 +24,93 @@ function Header() {
   };
 
   return (
-    <header className="bg-teal-500 p-4 text-white relative">
-      <div className="container mx-auto flex justify-between items-center">
-        {/* Logo */}
-        <Link to="/" className="text-2xl font-bold text-white">
-          WEBSTORE
-        </Link>
+    <header className="bg-gray-800 shadow-md py-2">
+      <div className="container mx-auto flex justify-between items-center px-6">
+        
+        {/* Left Section: Logo & Cart */}
+        <div className="flex items-center space-x-6">
+          {/* Logo */}
+          <Link to="/" className="text-2xl font-extrabold text-white tracking-wide">
+          Simpleté
+          </Link>
 
-        {/* Search Bar */}
-        <div
-          className="relative w-full max-w-md"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <input
-            type="text"
-            placeholder="Search for products..."
-            className="w-full py-2 px-4 rounded-md text-gray-800 shadow-md focus:outline-none"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-
-          {/* Dropdown for additional filters */}
-          {isHovered && (
-            <div className="absolute top-full left-0 w-full bg-white text-gray-800 shadow-lg rounded-md mt-2 p-4 z-10">
-              <div className="mb-3">
-                <label className="block text-sm font-medium">Brand</label>
-                <select
-                  className="w-full p-2 rounded-md border border-gray-300"
-                  value={brand}
-                  onChange={(e) => setBrand(e.target.value)}
-                >
-                  <option value="">Select Brand</option>
-                  <option value="Uggs">Uggs</option>
-                  <option value="Nike">Nike</option>
-                  <option value="TommyHilfiger">TommyHilfiger</option>
-                  <option value="Zara">Zara</option>
-                </select>
-              </div>
-              <div className="mb-3">
-                <label className="block text-sm font-medium">Size</label>
-                <select
-                  className="w-full p-2 rounded-md border border-gray-300"
-                  value={size}
-                  onChange={(e) => setSize(e.target.value)}
-                >
-                  <option value="">Select Size</option>
-                  <option value="36">36</option>
-                  <option value="38">38</option>
-                  <option value="S">S</option>
-                  <option value="M">M</option>
-                  <option value="L">L</option>
-                  <option value="XL">XL</option>
-                </select>
-              </div>
-              <button
-                className="w-full bg-teal-500 text-white py-2 rounded-md"
-                onClick={handleSearch}
-              >
-                Search
-              </button>
-            </div>
-          )}
+          {/* Cart */}
+          <Link to="/cart" className="relative flex items-center text-white text-lg">
+            <FaShoppingCart size={22} className="hover:text-gray-300 transition" />
+            {cart.length > 0 && (
+              <span className="bg-red-500 text-white text-xs font-bold rounded-full px-2 absolute -top-2 -right-3">
+                {cart.length}
+              </span>
+            )}
+          </Link>
         </div>
 
-        {/* User Actions */}
+
+
+        {/* Center: Filter Bar */}
+        <div className="flex items-center space-x-4 bg-gray-700 p-2 rounded-md shadow-md">
+          {/* Brand Filter */}
+          <div>
+            <label className="block text-xs font-semibold text-gray-300">Brand</label>
+            <select
+              className="w-32 p-1 rounded-md border border-gray-600 bg-gray-800 text-white focus:ring-2 focus:ring-blue-400"
+              value={brand}
+              onChange={(e) => setBrand(e.target.value)}
+            >
+              <option value="">All Brands</option>
+              <option value="Uggs">Uggs</option>
+              <option value="Nike">Nike</option>
+              <option value="TommyHilfiger">TommyHilfiger</option>
+              <option value="Zara">Zara</option>
+            </select>
+          </div>
+
+          {/* Size Filter */}
+          <div>
+            <label className="block text-xs font-semibold text-gray-300">Size</label>
+            <select
+              className="w-32 p-1 rounded-md border border-gray-600 bg-gray-800 text-white focus:ring-2 focus:ring-blue-400"
+              value={size}
+              onChange={(e) => setSize(e.target.value)}
+            >
+              <option value="">All Sizes</option>
+              <option value="36">36</option>
+              <option value="38">38</option>
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+            </select>
+          </div>
+
+          {/* Search Button */}
+          <button
+            onClick={handleSearch}
+            className="flex items-center bg-blue-500 text-white px-4 py-1 rounded-md hover:bg-blue-600 transition relative top-[7px]"
+          >
+            <FaSearch className="mr-1 text-white" /> Search
+          </button>
+        </div>
+
+        {/* Right Section: User Info & Logout */}
         <div className="flex items-center space-x-4">
           {user ? (
-            <>
-              <p className="font-medium">
-                Welcome, <span className="font-bold">{user.email}</span>
-              </p>
+            <div className="flex items-center space-x-2">
+              <FaUserCircle size={20} className="text-white" />
+              <p className="text-white text-sm relative top-[7px]">{user.email}</p> {/* Adjusted alignment */}
               <button
                 onClick={handleLogout}
-                className="bg-white text-teal-500 px-4 py-2 rounded-md hover:bg-gray-100"
+                className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition text-sm"
               >
                 Logout
               </button>
-            </>
+            </div>
           ) : (
             <>
-              <Link
-                to="/login"
-                className="bg-white text-teal-500 px-4 py-2 rounded-md hover:bg-gray-100"
-              >
+              <Link to="/login" className="bg-white text-gray-800 px-3 py-1 rounded-md hover:bg-gray-200 transition text-sm">
                 Login
               </Link>
-              <Link
-                to="/register"
-                className="bg-white text-teal-500 px-4 py-2 rounded-md hover:bg-gray-100"
-              >
+              <Link to="/register" className="bg-white text-gray-800 px-3 py-1 rounded-md hover:bg-gray-200 transition text-sm">
                 Register
               </Link>
             </>

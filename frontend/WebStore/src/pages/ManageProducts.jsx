@@ -16,6 +16,8 @@ function ManageProducts() {
     colorName: "",
   });
   const [discount, setDiscount] = useState({ productId: "", percentage: 0 });
+  const [removeDiscount, setRemoveDiscount] = useState({ productId: "" }); // Added for remove discount
+
 
   // Fetch all products
   const fetchProducts = async () => {
@@ -85,6 +87,34 @@ function ManageProducts() {
       } else {
         const error = await response.json();
         throw new Error(error.message || "Failed to apply discount.");
+      }
+    } catch (err) {
+      console.error(err.message);
+      alert(err.message);
+    }
+  };
+
+  // 🔥 Remove discount from a product
+  const handleRemoveDiscount = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+      const response = await fetch(
+        `http://localhost:5205/api/Product/remove-discount/${removeDiscount.productId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Include the Bearer token
+          },
+        }
+      );
+      if (response.ok) {
+        alert("Discount removed successfully!");
+        fetchProducts(); // Refresh the product list
+      } else {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to remove discount.");
       }
     } catch (err) {
       console.error(err.message);
@@ -241,6 +271,27 @@ function ManageProducts() {
             />
             <button className="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-700">
               Apply Discount
+            </button>
+          </div>
+        </form>
+      )}
+      {/* 🚀 Remove Discount Form */}
+      {hasRole("Admin") && (
+        <form onSubmit={handleRemoveDiscount} className="mb-8">
+          <h3 className="font-bold mb-2">Remove Discount</h3>
+          <div className="flex flex-col space-y-2">
+            <input
+              type="text"
+              placeholder="Product ID"
+              value={removeDiscount.productId}
+              onChange={(e) =>
+                setRemoveDiscount({ ...removeDiscount, productId: e.target.value })
+              }
+              className="border p-2 rounded"
+              required
+            />
+            <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
+              Remove Discount
             </button>
           </div>
         </form>
