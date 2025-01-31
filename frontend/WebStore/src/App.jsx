@@ -15,9 +15,12 @@ import AdminPage from "./pages/AdminPage";
 import ManageProducts from "./pages/ManageProducts";
 import ManageOrders from "./pages/ManageOrders";
 import ManageUsers from "./pages/ManageUsers";
+import CartPage from "./pages/CartPage"; 
+import { CartProvider } from "./context/CartContext.jsx";
 
 function App() {
   return (
+    <CartProvider>
     <Router>
       <MainLayout>
         <Routes>
@@ -29,11 +32,11 @@ function App() {
           <Route path="/products" element={<ManageProducts />} />
           <Route path="/orders" element={<ManageOrders />} />
           <Route path="/users" element={<ManageUsers />} />
-
-
+          <Route path="/cart" element={<CartPage />} /> {/* Add Cart Page */}
         </Routes>
       </MainLayout>
     </Router>
+    </CartProvider>
   );
 }
 
@@ -52,6 +55,7 @@ function MainLayout({ children }) {
       <main className="flex-grow">{children}</main>
       {!shouldHideHeaderFooter && <Footer />}
     </div>
+    
   );
 }
 

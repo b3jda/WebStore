@@ -18,12 +18,21 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
-
+  
     try {
       const userData = await login(formData.email, formData.password);
-
-      // Check roles to determine the redirection
+      console.log("User Data:", userData); // Debugging user roles
+  
+      // Ensure roles exist before accessing them
+      if (!userData || !userData.roles || !Array.isArray(userData.roles)) {
+        console.error("Roles not found or invalid structure:", userData);
+        setErrorMessage("Invalid user data. Please try again.");
+        return;
+      }
+  
       const roles = userData.roles;
+      console.log("User Roles:", roles); // Log roles to debug
+  
       if (roles.includes("Admin")) {
         alert("Welcome Admin!");
         navigate("/admin");

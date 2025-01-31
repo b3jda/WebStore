@@ -62,7 +62,7 @@ function Register() {
           Create an Account
         </h1>
         <p className="text-gray-600 text-center mb-8">
-          Sign up to start your journey with WebStore
+          Sign up to start your journey with Simpleté
         </p>
 
         {/* Registration Form */}
