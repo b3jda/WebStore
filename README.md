@@ -43,6 +43,6 @@ WebStore is a full-stack e-commerce application that allows users to manage prod
 ### Setup
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-repo-url/WebStore.git
+   git clone https://github.com/b3jda/WebStore.git
    cd WebStore
 
