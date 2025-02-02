@@ -1,0 +1,785 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebStore</name>
+    </assembly>
+    <members>
+        <member name="M:WebStore.Controllers.AuthController.Register(WebStore.DTOs.RegistrationRequestDTO)">
+            <summary>
+            Registers a new user.
+            </summary>
+            <param name="request">User registration details.</param>
+            <returns>Success or failure message.</returns>
+            <response code="200">User created successfully.</response>
+            <response code="400">User already exists or invalid request.</response>
+        </member>
+        <member name="M:WebStore.Controllers.AuthController.Login(WebStore.DTOs.AuthRequestDTO)">
+            <summary>
+            Authenticates a user and returns a JWT token.
+            </summary>
+            <param name="request">User login credentials.</param>
+            <returns>JWT token for authenticated users.</returns>
+            <response code="200">Returns JWT token.</response>
+            <response code="400">Invalid email or password.</response>
+        </member>
+        <member name="M:WebStore.Controllers.AuthController.CreateRoles(System.String)">
+            <summary>
+            Creates a new role.
+            </summary>
+            <param name="roleName">The name of the role.</param>
+            <returns>Success message.</returns>
+            <response code="200">Role created successfully.</response>
+        </member>
+        <member name="M:WebStore.Controllers.AuthController.AssignRoleToUser(System.String,System.String)">
+            <summary>
+            Assigns a role to a user.
+            </summary>
+            <param name="username">User's username.</param>
+            <param name="roleName">Role name to assign.</param>
+            <returns>Success message.</returns>
+            <response code="200">Role assigned successfully.</response>
+            <response code="400">User or role does not exist.</response>
+        </member>
+        <member name="T:WebStore.Controllers.BrandController">
+            <summary>
+            Manages brand-related operations.
+            </summary>
+        </member>
+        <member name="M:WebStore.Controllers.BrandController.GetAllBrands">
+            <summary>
+            Retrieves all brands.
+            </summary>
+            <returns>A list of all available brands.</returns>
+            <response code="200">Returns the list of brands.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.BrandController.GetBrandById(System.Int32)">
+            <summary>
+            Retrieves a brand by ID.
+            </summary>
+            <param name="id">The brand ID.</param>
+            <returns>The brand details.</returns>
+            <response code="200">Returns the brand.</response>
+            <response code="404">If the brand is not found.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.BrandController.AddBrand(WebStore.DTOs.BrandRequestDTO)">
+            <summary>
+            Creates a new brand.
+            </summary>
+            <param name="brandRequest">The brand details.</param>
+            <returns>The created brand.</returns>
+            <response code="201">Returns the newly created brand.</response>
+            <response code="400">Invalid request. Brand name is required.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.BrandController.UpdateBrand(System.Int32,WebStore.DTOs.BrandRequestDTO)">
+            <summary>
+            Updates an existing brand.
+            </summary>
+            <param name="id">The brand ID.</param>
+            <param name="brandRequest">The updated brand details.</param>
+            <response code="200">Brand updated successfully.</response>
+            <response code="400">Invalid request. Brand name is required.</response>
+            <response code="404">If the brand is not found.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.BrandController.DeleteBrand(System.Int32)">
+            <summary>
+            Deletes a brand by ID.
+            </summary>
+            <param name="id">The brand ID.</param>
+            <response code="200">Brand deleted successfully.</response>
+            <response code="404">If the brand is not found.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="T:WebStore.Controllers.CategoryController">
+            <summary>
+            Manages category-related operations.
+            </summary>
+        </member>
+        <member name="M:WebStore.Controllers.CategoryController.GetAllCategories">
+            <summary>
+            Retrieves all categories.
+            </summary>
+            <returns>A list of all available categories.</returns>
+            <response code="200">Returns the list of categories.</response>
+        </member>
+        <member name="M:WebStore.Controllers.CategoryController.GetCategoryById(System.Int32)">
+            <summary>
+            Retrieves a category by ID.
+            </summary>
+            <param name="id">The category ID.</param>
+            <returns>The category details.</returns>
+            <response code="200">Returns the category.</response>
+            <response code="404">If the category is not found.</response>
+        </member>
+        <member name="M:WebStore.Controllers.CategoryController.AddCategory(WebStore.DTOs.CategoryRequestDTO)">
+            <summary>
+            Creates a new category.
+            </summary>
+            <param name="categoryRequest">The category details.</param>
+            <returns>The created category.</returns>
+            <response code="201">Returns the newly created category.</response>
+            <response code="400">Invalid request. Category name is required.</response>
+        </member>
+        <member name="M:WebStore.Controllers.CategoryController.UpdateCategory(System.Int32,WebStore.DTOs.CategoryRequestDTO)">
+            <summary>
+            Updates an existing category.
+            </summary>
+            <param name="id">The category ID.</param>
+            <param name="categoryRequest">The updated category details.</param>
+            <response code="200">Returns success message.</response>
+            <response code="400">Invalid request. Category name is required.</response>
+            <response code="404">If the category is not found.</response>
+        </member>
+        <member name="M:WebStore.Controllers.CategoryController.DeleteCategory(System.Int32)">
+            <summary>
+            Deletes a category by ID.
+            </summary>
+            <param name="id">The category ID.</param>
+            <response code="200">Category deleted successfully.</response>
+            <response code="404">If the category is not found.</response>
+        </member>
+        <member name="T:WebStore.Controllers.ColorController">
+            <summary>
+            Manages color-related operations.
+            </summary>
+        </member>
+        <member name="M:WebStore.Controllers.ColorController.GetAllColors">
+            <summary>
+            Retrieves all available colors.
+            </summary>
+            <returns>A list of colors.</returns>
+            <response code="200">Returns the list of colors.</response>
+        </member>
+        <member name="M:WebStore.Controllers.ColorController.GetColorById(System.Int32)">
+            <summary>
+            Retrieves a color by ID.
+            </summary>
+            <param name="id">The color ID.</param>
+            <returns>The color details.</returns>
+            <response code="200">Returns the color.</response>
+            <response code="404">If the color is not found.</response>
+        </member>
+        <member name="M:WebStore.Controllers.ColorController.AddColor(WebStore.DTOs.ColorRequestDTO)">
+            <summary>
+            Creates a new color.
+            </summary>
+            <param name="colorRequest">The color details.</param>
+            <returns>The created color.</returns>
+            <response code="201">Returns the newly created color.</response>
+            <response code="400">Invalid request. Color name is required.</response>
+        </member>
+        <member name="M:WebStore.Controllers.ColorController.UpdateColor(System.Int32,WebStore.DTOs.ColorRequestDTO)">
+            <summary>
+            Updates an existing color.
+            </summary>
+            <param name="id">The color ID.</param>
+            <param name="colorRequest">The updated color details.</param>
+            <response code="200">Returns success message.</response>
+            <response code="400">Invalid request. Color name is required.</response>
+            <response code="404">If the color is not found.</response>
+        </member>
+        <member name="M:WebStore.Controllers.ColorController.DeleteColor(System.Int32)">
+            <summary>
+            Deletes a color by ID.
+            </summary>
+            <param name="id">The color ID.</param>
+            <response code="200">Color deleted successfully.</response>
+            <response code="404">If the color is not found.</response>
+        </member>
+        <member name="T:WebStore.Controllers.GenderController">
+            <summary>
+            Manages gender-related operations.
+            </summary>
+        </member>
+        <member name="M:WebStore.Controllers.GenderController.GetAllGenders">
+            <summary>
+            Retrieves all available genders.
+            </summary>
+            <returns>A list of genders.</returns>
+            <response code="200">Returns the list of genders.</response>
+        </member>
+        <member name="M:WebStore.Controllers.GenderController.GetGenderById(System.Int32)">
+            <summary>
+            Retrieves a gender by ID.
+            </summary>
+            <param name="id">The gender ID.</param>
+            <returns>The gender details.</returns>
+            <response code="200">Returns the gender.</response>
+            <response code="404">If the gender is not found.</response>
+        </member>
+        <member name="M:WebStore.Controllers.GenderController.AddGender(WebStore.DTOs.GenderRequestDTO)">
+            <summary>
+            Creates a new gender.
+            </summary>
+            <param name="genderRequest">The gender details.</param>
+            <returns>The created gender.</returns>
+            <response code="201">Returns the newly created gender.</response>
+            <response code="400">Invalid request. Gender name is required.</response>
+        </member>
+        <member name="M:WebStore.Controllers.GenderController.UpdateGender(System.Int32,WebStore.DTOs.GenderRequestDTO)">
+            <summary>
+            Updates an existing gender.
+            </summary>
+            <param name="id">The gender ID.</param>
+            <param name="genderRequest">The updated gender details.</param>
+            <response code="200">Returns success message.</response>
+            <response code="400">Invalid request. Gender name is required.</response>
+            <response code="404">If the gender is not found.</response>
+        </member>
+        <member name="M:WebStore.Controllers.GenderController.DeleteGender(System.Int32)">
+            <summary>
+            Deletes a gender by ID.
+            </summary>
+            <param name="id">The gender ID.</param>
+            <response code="200">Gender deleted successfully.</response>
+            <response code="404">If the gender is not found.</response>
+        </member>
+        <member name="T:WebStore.Controllers.OrderController">
+            <summary>
+            Handles order-related operations.
+            </summary>
+        </member>
+        <member name="M:WebStore.Controllers.OrderController.#ctor(WebStore.Services.Interfaces.IOrderService,Microsoft.AspNetCore.Mvc.Routing.IUrlHelperFactory,Microsoft.AspNetCore.Mvc.Infrastructure.IActionContextAccessor)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebStore.Controllers.OrderController"/> class.
+            </summary>
+            <param name="orderService">The order service.</param>
+            <param name="urlHelperFactory">The URL helper factory.</param>
+            <param name="accessor">The action context accessor.</param>
+        </member>
+        <member name="M:WebStore.Controllers.OrderController.GetAllOrders">
+            <summary>
+            Retrieves all orders. (Admin/Advanced Users Only)
+            </summary>
+            <returns>A list of all orders.</returns>
+            <response code="200">Returns a list of orders successfully.</response>
+            <response code="401">Unauthorized. User is not authenticated.</response>
+            <response code="403">Forbidden. User does not have permission.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.OrderController.GetOrderById(System.Int32)">
+            <summary>
+            Retrieves an order by its ID.
+            </summary>
+            <param name="id">The order ID.</param>
+            <returns>The requested order.</returns>
+            <response code="200">Returns the order successfully.</response>
+            <response code="401">Unauthorized. User is not authenticated.</response>
+            <response code="404">Order not found.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.OrderController.GetOrdersByUserId(System.String)">
+            <summary>
+            Retrieves all orders for a specific user.
+            </summary>
+            <param name="userId">The user's ID.</param>
+            <returns>A list of orders for the user.</returns>
+            <response code="200">Returns the list of orders successfully.</response>
+            <response code="401">Unauthorized. User is not authenticated.</response>
+            <response code="404">No orders found for the user.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.OrderController.PlaceOrder(WebStore.DTOs.OrderRequestDTO)">
+            <summary>
+            Places a new order.
+            </summary>
+            <param name="orderRequest">The order details.</param>
+            <returns>The created order.</returns>
+            <response code="201">Order created successfully.</response>
+            <response code="400">Invalid request. Order items are required.</response>
+            <response code="401">Unauthorized. User is not authenticated.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.OrderController.UpdateOrderStatus(System.Int32,WebStore.Models.OrderStatus)">
+            <summary>
+            Updates the status of an order. (Admin Only)
+            </summary>
+            <param name="id">The order ID.</param>
+            <param name="status">The new order status.</param>
+            <response code="200">Order status updated successfully.</response>
+            <response code="400">Invalid order status.</response>
+            <response code="401">Unauthorized. User is not authenticated.</response>
+            <response code="403">Forbidden. User does not have permission.</response>
+            <response code="404">Order not found.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.OrderController.DeleteOrder(System.Int32)">
+            <summary>
+            Deletes an order. (Admin Only)
+            </summary>
+            <param name="id">The order ID.</param>
+            <returns>A success message.</returns>
+            <response code="200">Order deleted successfully.</response>
+            <response code="401">Unauthorized. User is not authenticated.</response>
+            <response code="403">Forbidden. User does not have permission.</response>
+            <response code="404">Order not found.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="T:WebStore.Controllers.ProductController">
+            <summary>
+            Handles operations related to products.
+            </summary>
+        </member>
+        <member name="M:WebStore.Controllers.ProductController.#ctor(WebStore.Services.Interfaces.IProductService,Microsoft.AspNetCore.Mvc.Routing.IUrlHelperFactory,Microsoft.AspNetCore.Mvc.Infrastructure.IActionContextAccessor)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebStore.Controllers.ProductController"/> class.
+            </summary>
+            <param name="productService">Service for handling products.</param>
+            <param name="urlHelperFactory">Factory for creating URL helpers.</param>
+            <param name="accessor">Accessor for action context.</param>
+        </member>
+        <member name="M:WebStore.Controllers.ProductController.GetAllProducts">
+            <summary>
+            Retrieves all products.
+            </summary>
+            <returns>A list of all available products with HATEOAS links.</returns>
+            <response code="200">Returns the list of products.</response>
+            <response code="500">If there is an internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.ProductController.GetProductById(System.Int32)">
+            <summary>
+            Retrieves a product by its ID.
+            </summary>
+            <param name="id">The product ID.</param>
+            <returns>The requested product details with HATEOAS links.</returns>
+            <response code="200">Returns the requested product.</response>
+            <response code="404">If the product is not found.</response>
+            <response code="500">If there is an internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.ProductController.AddProduct(WebStore.DTOs.ProductRequestDTO)">
+            <summary>
+            Adds a new product. (Requires Admin, AdvancedUser role)
+            </summary>
+            <param name="productRequest">The product details.</param>
+            <returns>The created product with HATEOAS links.</returns>
+            <response code="201">Returns the created product.</response>
+            <response code="400">If the product request is invalid.</response>
+            <response code="401">If the user is unauthorized.</response>
+            <response code="403">If the user does not have the required role.</response>
+            <response code="500">If there is an internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.ProductController.UpdateProduct(System.Int32,WebStore.DTOs.ProductRequestDTO)">
+            <summary>
+            Updates an existing product by its ID.
+            </summary>
+            <param name="id">The product ID.</param>
+            <param name="productRequest">Updated product details.</param>
+            <response code="204">If the product is updated successfully.</response>
+            <response code="400">If the product request is invalid.</response>
+            <response code="404">If the product is not found.</response>
+            <response code="500">If there is an internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.ProductController.DeleteProduct(System.Int32)">
+            <summary>
+            Deletes a product. (Requires Admin or AdvancedUser role)
+            </summary>
+            <param name="id">The product ID.</param>
+            <returns>A success message.</returns>
+            <response code="200">If the product is deleted successfully.</response>
+            <response code="401">If the user is unauthorized.</response>
+            <response code="403">If the user does not have the required role.</response>
+            <response code="404">If the product is not found.</response>
+            <response code="500">If there is an internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.ProductController.GetRealTimeProductStock(System.Int32)">
+            <summary>
+            Retrieves real-time stock information for a product.
+            </summary>
+            <param name="id">The product ID.</param>
+            <returns>Stock information for the product.</returns>
+            <response code="200">Returns the stock information.</response>
+            <response code="404">If the product is not found.</response>
+            <response code="500">If there is an internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.ProductController.SearchProducts(System.String,System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.String,System.String,System.Nullable{System.Boolean})">
+            <summary>
+            Searches for products based on filters.
+            </summary>
+            <param name="category">The product category.</param>
+            <param name="gender">The product gender.</param>
+            <param name="brand">The product brand.</param>
+            <param name="minPrice">The minimum price.</param>
+            <param name="maxPrice">The maximum price.</param>
+            <param name="size">The product size.</param>
+            <param name="color">The product color.</param>
+            <param name="inStock">Whether the product is in stock.</param>
+            <returns>A list of products matching the search criteria.</returns>
+            <response code="200">Returns the list of products.</response>
+            <response code="404">If no products are found.</response>
+            <response code="500">If there is an internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.ProductController.ApplyDiscount(System.Int32,System.Double)">
+            <summary>
+            Applies a discount to a product. (Requires Admin role)
+            </summary>
+            <param name="productId">The product ID.</param>
+            <param name="discountPercentage">The discount percentage.</param>
+            <returns>The updated product details.</returns>
+            <response code="200">Returns the updated product.</response>
+            <response code="400">If the discount percentage is invalid.</response>
+            <response code="401">If the user is unauthorized.</response>
+            <response code="403">If the user does not have the required role.</response>
+            <response code="404">If the product is not found.</response>
+            <response code="500">If there is an internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.ProductController.RemoveDiscount(System.Int32)">
+            <summary>
+            Removes a discount from a product. (Requires Admin role)
+            </summary>
+            <param name="productId">The product ID.</param>
+            <returns>The updated product details.</returns>
+            <response code="200">Returns the updated product.</response>
+            <response code="401">If the user is unauthorized.</response>
+            <response code="403">If the user does not have the required role.</response>
+            <response code="404">If the product is not found.</response>
+            <response code="500">If there is an internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.ProductController.GetDiscountedProducts">
+            <summary>
+            Retrieves a list of discounted products.
+            </summary>
+            <returns>A list of discounted products.</returns>
+            <response code="200">Returns the list of discounted products.</response>
+            <response code="500">If there is an internal server error.</response>
+        </member>
+        <member name="T:WebStore.Controllers.ReportController">
+            <summary>
+            Handles operations related to generating reports.
+            </summary>
+        </member>
+        <member name="M:WebStore.Controllers.ReportController.#ctor(WebStore.Services.Interfaces.IReportService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebStore.Controllers.ReportController"/> class.
+            </summary>
+            <param name="reportService">The report service.</param>
+        </member>
+        <member name="M:WebStore.Controllers.ReportController.GetDailyEarningsReport(System.DateTime)">
+            <summary>
+            Retrieves the daily earnings report for a specific date. (Requires Admin or AdvancedUser role)
+            </summary>
+            <param name="date">The date for which to retrieve the report.</param>
+            <returns>The earnings report for the given date.</returns>
+            <response code="200">Returns the daily earnings report.</response>
+            <response code="401">If the user is unauthorized.</response>
+            <response code="403">If the user does not have the required role.</response>
+            <response code="404">If no report is found for the given date.</response>
+            <response code="500">If there is an internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.ReportController.GetMonthlyEarningsReport(System.Int32,System.Int32)">
+            <summary>
+            Retrieves the monthly earnings report for a specific month and year. (Requires Admin or AdvancedUser role)
+            </summary>
+            <param name="month">The month for which to retrieve the report.</param>
+            <param name="year">The year for which to retrieve the report.</param>
+            <returns>The earnings report for the given month and year.</returns>
+            <response code="200">Returns the monthly earnings report.</response>
+            <response code="401">If the user is unauthorized.</response>
+            <response code="403">If the user does not have the required role.</response>
+            <response code="404">If no report is found for the given month and year.</response>
+            <response code="500">If there is an internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.ReportController.GetTopSellingProductsReport(System.Int32)">
+            <summary>
+            Retrieves a report of the top-selling products based on sales count. (Requires Admin or AdvancedUser role)
+            </summary>
+            <param name="count">The number of top-selling products to retrieve.</param>
+            <returns>A list of top-selling products.</returns>
+            <response code="200">Returns the list of top-selling products.</response>
+            <response code="401">If the user is unauthorized.</response>
+            <response code="403">If the user does not have the required role.</response>
+            <response code="404">If no data is found for top-selling products.</response>
+            <response code="500">If there is an internal server error.</response>
+        </member>
+        <member name="T:WebStore.Controllers.SizeController">
+            <summary>
+            Manages size-related operations in the WebStore API.
+            </summary>
+        </member>
+        <member name="M:WebStore.Controllers.SizeController.#ctor(WebStore.Services.Interfaces.ISizeService,AutoMapper.IMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebStore.Controllers.SizeController"/> class.
+            </summary>
+            <param name="sizeService">The service that handles size-related operations.</param>
+            <param name="mapper">The AutoMapper instance.</param>
+        </member>
+        <member name="M:WebStore.Controllers.SizeController.GetAllSizes">
+            <summary>
+            Retrieves all available sizes.
+            </summary>
+            <returns>A list of sizes.</returns>
+            <response code="200">Returns the list of sizes successfully.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.SizeController.GetSizeById(System.Int32)">
+            <summary>
+            Retrieves a specific size by its ID.
+            </summary>
+            <param name="id">The ID of the size to retrieve.</param>
+            <returns>The size details if found; otherwise, a 404 response.</returns>
+            <response code="200">Returns the size details successfully.</response>
+            <response code="404">Size not found.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.SizeController.AddSize(WebStore.DTOs.SizeRequestDTO)">
+            <summary>
+            Adds a new size.
+            </summary>
+            <param name="sizeRequest">The size details to add.</param>
+            <returns>The created size with a 201 response.</returns>
+            <response code="201">Size created successfully.</response>
+            <response code="400">Invalid request. Ensure all required fields are provided.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.SizeController.UpdateSize(System.Int32,WebStore.DTOs.SizeRequestDTO)">
+            <summary>
+            Updates an existing size.
+            </summary>
+            <param name="id">The ID of the size to update.</param>
+            <param name="sizeRequest">The updated size details.</param>
+            <returns>A 204 No Content response if successful.</returns>
+            <response code="204">Size updated successfully.</response>
+            <response code="400">Invalid request. Ensure all required fields are provided.</response>
+            <response code="404">Size not found.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.SizeController.DeleteSize(System.Int32)">
+            <summary>
+            Deletes a specific size by its ID.
+            </summary>
+            <param name="id">The ID of the size to delete.</param>
+            <returns>A confirmation message if successful.</returns>
+            <response code="200">Size deleted successfully.</response>
+            <response code="404">Size not found.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="T:WebStore.Controllers.UserController">
+            <summary>
+            Manages user-related operations in the WebStore API.
+            </summary>
+        </member>
+        <member name="M:WebStore.Controllers.UserController.#ctor(WebStore.Services.Interfaces.IUserService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebStore.Controllers.UserController"/> class.
+            </summary>
+            <param name="userService">The service handling user-related operations.</param>
+        </member>
+        <member name="M:WebStore.Controllers.UserController.GetUserById(System.String)">
+            <summary>
+            Retrieves a user by their unique ID.
+            </summary>
+            <param name="id">The ID of the user.</param>
+            <returns>The user details if found; otherwise, a 404 response.</returns>
+            <response code="200">Returns the user details successfully.</response>
+            <response code="401">Unauthorized. User is not authenticated.</response>
+            <response code="403">Forbidden. User does not have permission.</response>
+            <response code="404">User not found.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.UserController.GetAllUsers">
+            <summary>
+            Retrieves all users.
+            </summary>
+            <returns>A list of users.</returns>
+            <response code="200">Returns the list of users successfully.</response>
+            <response code="401">Unauthorized. User is not authenticated.</response>
+            <response code="403">Forbidden. User does not have permission.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.UserController.AddUser(WebStore.DTOs.UserResponseDTO)">
+            <summary>
+            Adds a new user to the system.
+            </summary>
+            <param name="userRequest">The user details to add.</param>
+            <returns>The created user with a 201 response.</returns>
+            <response code="201">User created successfully.</response>
+            <response code="400">Invalid request. Ensure all required fields are provided.</response>
+            <response code="401">Unauthorized. User is not authenticated.</response>
+            <response code="403">Forbidden. User does not have permission.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="M:WebStore.Controllers.UserController.DeleteUser(System.String)">
+            <summary>
+            Deletes a user by their unique ID.
+            </summary>
+            <param name="id">The ID of the user to delete.</param>
+            <returns>A 204 No Content response if successful; otherwise, a 404 response.</returns>
+            <response code="204">User deleted successfully.</response>
+            <response code="401">Unauthorized. User is not authenticated.</response>
+            <response code="403">Forbidden. User does not have permission.</response>
+            <response code="404">User not found.</response>
+            <response code="500">Internal server error.</response>
+        </member>
+        <member name="P:WebStore.DTOs.OrderResponseDTO.Links">
+            <summary>
+            HATEOAS Links for navigation
+            </summary>
+        </member>
+        <member name="P:WebStore.DTOs.ProductResponseDTO.Links">
+            <summary>
+            HATEOAS Links for navigation
+            </summary>
+        </member>
+        <member name="M:WebStore.GraphQL.Mutation.PlaceOrder(WebStore.DTOs.OrderRequestDTO)">
+            <summary>
+            Places a new order for a user.
+            </summary>
+            <param name="orderRequest">Order request containing user ID and order items.</param>
+            <returns>Returns the created order.</returns>
+        </member>
+        <member name="M:WebStore.GraphQL.Mutation.UpdateOrderStatus(System.Int32,WebStore.Models.OrderStatus)">
+            <summary>
+            Updates the status of an existing order.
+            </summary>
+            <param name="orderId">ID of the order to update.</param>
+            <param name="status">New status of the order.</param>
+            <returns>Returns true if the update was successful.</returns>
+        </member>
+        <member name="M:WebStore.GraphQL.Mutation.UpdateOrderDetails(System.Int32,WebStore.Models.OrderStatus)">
+            <summary>
+            Updates order details including its status.
+            </summary>
+            <param name="orderId">ID of the order to update.</param>
+            <param name="status">New order status.</param>
+            <returns>Returns the updated order.</returns>
+        </member>
+        <member name="M:WebStore.GraphQL.Mutation.CancelOrder(System.Int32)">
+            <summary>
+            Cancels an existing order if it's not completed or already cancelled.
+            </summary>
+            <param name="orderId">ID of the order to cancel.</param>
+            <returns>Returns true if cancellation was successful.</returns>
+            <exception cref="T:HotChocolate.GraphQLException">Thrown if the order is not found or cannot be cancelled.</exception>
+        </member>
+        <member name="M:WebStore.GraphQL.Mutation.DeleteOrder(System.Int32)">
+            <summary>
+            Deletes an order permanently from the system.
+            </summary>
+            <param name="orderId">ID of the order to delete.</param>
+            <returns>Returns true if the deletion was successful.</returns>
+            <exception cref="T:HotChocolate.GraphQLException">Thrown if the order is not found.</exception>
+        </member>
+        <member name="M:WebStore.GraphQL.Query.GetAllOrders">
+            <summary>
+            Retrieves all orders from the system.
+            </summary>
+        </member>
+        <member name="M:WebStore.GraphQL.Query.GetOrderById(System.Int32)">
+            <summary>
+            Retrieves an order by its unique ID.
+            </summary>
+        </member>
+        <member name="M:WebStore.GraphQL.Query.GetOrdersByUserId(System.String)">
+            <summary>
+            Retrieves all orders placed by a specific user.
+            </summary>
+        </member>
+        <member name="M:WebStore.GraphQL.Query.GetDailyEarningsReport(System.DateTime)">
+            <summary>
+            Generates a daily earnings report for a specific date.
+            </summary>
+        </member>
+        <member name="M:WebStore.GraphQL.Query.GetMonthlyEarningsReport(System.Int32,System.Int32)">
+            <summary>
+            Generates a monthly earnings report for a specific month and year.
+            </summary>
+        </member>
+        <member name="M:WebStore.GraphQL.Query.GetTopSellingProductsReport(System.Int32)">
+            <summary>
+            Retrieves the top-selling products based on sales.
+            </summary>
+        </member>
+        <member name="M:WebStore.GraphQL.Subscription.OnOrderPlaced(WebStore.DTOs.OrderPlacedEventDTO)">
+            <summary>
+            Real Time Update : Notifies client when a new order is placed.
+            </summary>
+        </member>
+        <member name="M:WebStore.GraphQL.Resolvers.OrderResolvers.GetUserAsync(WebStore.Models.Order,WebStore.Services.Interfaces.IUserService)">
+            <summary>
+            Fetches the User associated with an Order dynamically.
+            </summary>
+        </member>
+        <member name="M:WebStore.GraphQL.Resolvers.ReportResolvers.GetMostSellingProductNameAsync(WebStore.DTOs.ReportDTO)">
+            <summary>
+            Fetches the Most Selling Product Name dynamically.
+            </summary>
+        </member>
+        <member name="T:WebStore.Migrations.initialmigration">
+            <inheritdoc />
+        </member>
+        <member name="M:WebStore.Migrations.initialmigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebStore.Migrations.initialmigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebStore.Migrations.initialmigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebStore.Migrations.AddIdentityProvider">
+            <inheritdoc />
+        </member>
+        <member name="M:WebStore.Migrations.AddIdentityProvider.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebStore.Migrations.AddIdentityProvider.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebStore.Migrations.AddIdentityProvider.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebStore.Migrations.AddIsDiscountedToProduct">
+            <inheritdoc />
+        </member>
+        <member name="M:WebStore.Migrations.AddIsDiscountedToProduct.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebStore.Migrations.AddIsDiscountedToProduct.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebStore.Migrations.AddIsDiscountedToProduct.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebStore.Migrations.AddDiscountPercentageToProduct">
+            <inheritdoc />
+        </member>
+        <member name="M:WebStore.Migrations.AddDiscountPercentageToProduct.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebStore.Migrations.AddDiscountPercentageToProduct.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebStore.Migrations.AddDiscountPercentageToProduct.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:WebStore.Migrations.AddOriginalPriceToProduct">
+            <inheritdoc />
+        </member>
+        <member name="M:WebStore.Migrations.AddOriginalPriceToProduct.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebStore.Migrations.AddOriginalPriceToProduct.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebStore.Migrations.AddOriginalPriceToProduct.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:WebStore.Services.Utilities.LinkHelper.GenerateOrderLinks(System.Int32)">
+            <summary>
+            Generates links for an order
+            </summary>
+        </member>
+        <member name="M:WebStore.Services.Utilities.LinkHelper.GenerateProductLinks(System.Int32)">
+            <summary>
+            Generates links for a product
+            </summary>
+        </member>
+        <member name="M:WebStore.Services.Utilities.LinkHelper.GenerateProductCollectionLinks">
+            <summary>
+            Generates collection-level links for the product API
+            </summary>
+        </member>
+    </members>
+</doc>

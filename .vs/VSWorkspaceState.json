@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\WebApplication",
+    "\\WebApplication\\WebStore",
+    "\\WebApplication\\WebStore\\Repositories",
+    "\\WebApplication\\WebStore\\Repositories\\Implementations"
+  ],
+  "SelectedNode": "\\WebApplication\\WebStore\\Repositories\\Implementations\\ReportRepository.cs",
+  "PreviewInSolutionExplorer": false
+}
